@@ -20,7 +20,7 @@ new GateListener(model, gate, history);
 
 ReactDOM.render(
     <Provider gate={gate} model={model} auth={auth}>
-        <App gate={gate} model={model}/>
+        <App/>
     </Provider>,
     document.getElementById('root') as HTMLElement
 );

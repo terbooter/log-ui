@@ -2,16 +2,10 @@ import * as React from 'react';
 import './App.css';
 import {Route, Router, Switch} from "react-router";
 import {LoginPage} from "./LoginPage";
-import {Gate} from "./controllers/Gate";
 import {Model} from "./model/Model";
 import {Home} from "./Home";
 import {inject, observer} from "mobx-react";
 import {Auth} from "./model/Auth";
-
-interface Props {
-    gate: Gate
-    model: Model
-}
 
 interface State {
 
@@ -19,11 +13,12 @@ interface State {
 
 interface InjectedProps {
     auth: Auth;
+    model: Model
 }
 
-@inject("auth")
+@inject("auth", "model")
 @observer
-export class App extends React.Component<Props, State> {
+export class App extends React.Component<{}, State> {
 
     constructor(props) {
         super(props);
@@ -32,7 +27,7 @@ export class App extends React.Component<Props, State> {
     }
 
     private get injected(): InjectedProps {
-        return this.props as any;
+        return this.props as InjectedProps;
     }
 
     public async componentDidMount() {
@@ -41,7 +36,7 @@ export class App extends React.Component<Props, State> {
 
     public render() {
 
-        const history = this.props.model.history;
+        const history = this.injected.model.history;
 
         if (this.injected.auth.status == "authorizing") {
             return <div>Loading ...</div>;
