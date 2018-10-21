@@ -3,10 +3,10 @@ import * as React from "react";
 import "./Filter.css";
 import * as classNames from "classnames";
 import {Model} from "../../model/Model";
-import {observer} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import {FilterParams} from "../../model/FilterParams";
 
-interface Properties {
+interface InjectedProperties {
     model: Model
 }
 
@@ -16,8 +16,9 @@ export interface FilterState {
     programId: number;
 }
 
+@inject("model")
 @observer
-export class Filter extends Component<Properties, FilterState> {
+export class Filter extends Component<{}, FilterState> {
 
     constructor(props) {
         super(props);
@@ -34,10 +35,14 @@ export class Filter extends Component<Properties, FilterState> {
         this.onGate = this.onGate.bind(this);
     }
 
+    private get injected(): InjectedProperties {
+        return this.props as InjectedProperties;
+    }
+
     public async componentDidMount() {
         // this.props.gate.addListener(this.onGate);
-        this.props.model.loadHosts();
-        this.props.model.loadContainers();
+        this.injected.model.loadHosts();
+        this.injected.model.loadContainers();
     }
 
     public async componentWillUnmount() {
@@ -98,15 +103,15 @@ export class Filter extends Component<Properties, FilterState> {
             text: "local"
         };
 
-        this.props.model.loadLogs(filter)
+        this.injected.model.loadLogs(filter)
     }
 
     public render() {
-        let options = this.props.model.hosts.map((item: any, index) => {
+        let options = this.injected.model.hosts.map((item: any, index) => {
             return <option key={index} value={item}>{item}</option>;
         });
 
-        let containerOptions = this.props.model.containers.map((item: any, index) => {
+        let containerOptions = this.injected.model.containers.map((item: any, index) => {
             return <option key={index} value={item}>{item}</option>;
         });
         return (
@@ -117,7 +122,7 @@ export class Filter extends Component<Properties, FilterState> {
                         <label htmlFor="">Hosts</label>
                         <select name=""
                                 className="form-control"
-                                disabled={this.props.model.isLoading}
+                                disabled={this.injected.model.isLoading}
                                 onChange={this.onHostChange}
                         >
                             {options}
@@ -129,7 +134,7 @@ export class Filter extends Component<Properties, FilterState> {
                                 value={this.state.programId}
                                 id="major-dropdown"
                                 className="form-control"
-                                disabled={this.props.model.isLoading}
+                                disabled={this.injected.model.isLoading}
                                 onChange={this.onContainerChanged}
                         >
                             {containerOptions}
@@ -141,7 +146,7 @@ export class Filter extends Component<Properties, FilterState> {
                                className="form-control"
                                onChange={this.onChange.bind(this)}
                                onKeyPress={this.onKeyPress}
-                               disabled={this.props.model.isLoading}
+                               disabled={this.injected.model.isLoading}
                                value={this.state.text}
                         />
                     </div>
@@ -150,7 +155,7 @@ export class Filter extends Component<Properties, FilterState> {
                                 onClick={this.onClick.bind(this)}
                                 className={classNames(
                                     "btn btn-primary form-control mt-auto button",
-                                    {disabled: this.props.model.isLoading}
+                                    {disabled: this.injected.model.isLoading}
                                 )}>
                             Filter
                         </button>

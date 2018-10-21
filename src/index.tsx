@@ -19,7 +19,7 @@ const auth = new Auth(gate, history);
 new GateListener(model, gate, history);
 
 ReactDOM.render(
-    <Provider model={model} auth={auth}>
+    <Provider gate={gate} model={model} auth={auth}>
         <App gate={gate} model={model}/>
     </Provider>,
     document.getElementById('root') as HTMLElement

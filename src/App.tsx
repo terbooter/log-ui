@@ -52,13 +52,9 @@ export class App extends React.Component<Props, State> {
 
             <Router history={history}>
                 <Switch>
-                    <Route path="/login" render={() => {
-                        return <LoginPage gate={this.props.gate} model={this.props.model}/>
-                    }}/>
+                    <Route path="/login" component={LoginPage}/>
 
-                    <Route path="/home" render={() => {
-                        return <Home gate={this.props.gate} model={this.props.model}/>
-                    }}/>
+                    <Route path="/home" component={Home}/>
 
                     <Route render={() => {
 
