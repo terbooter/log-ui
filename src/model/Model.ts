@@ -5,7 +5,6 @@ import {Gate} from "../controllers/Gate";
 import {FilterParams} from "./FilterParams";
 
 export class Model {
-    visitor: Visitor = new Visitor();
 
     @observable hosts: string[] = [];
     @observable containers: string[] = [];
@@ -18,9 +17,6 @@ export class Model {
 
     }
 
-    public logOut() {
-
-    }
 
     public async loadLogs(filter: FilterParams): Promise<void> {
         let r = await this.gate.request("/get-logs", "post", filter);

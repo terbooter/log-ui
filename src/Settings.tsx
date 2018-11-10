@@ -8,7 +8,7 @@ import {Gate, GateResponse} from "./controllers/Gate";
 import {Model} from "./model/Model";
 import {Filter} from "./components/home/Filter";
 import {List} from "./components/home/List";
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import {NavigationBar} from "./components/NavigationBar";
 
 interface Props {
@@ -18,13 +18,15 @@ interface Props {
 interface InjectedProps {
     model: Model
     auth: Auth
+    visitor: Visitor
 }
 
 interface State {
 
 }
 
-@inject("model", "auth")
+@inject("model", "auth", "visitor")
+@observer
 export class Settings extends React.Component<Props, State> {
     private get injected(): InjectedProps {
         return this.props as InjectedProps;
@@ -38,6 +40,10 @@ export class Settings extends React.Component<Props, State> {
                 <div style={{paddingTop: "20px"}}></div>
                 {/*<Filter/>*/}
                 <Route path="/home/:logId" component={Test}/>
+                <h3>Email: {this.injected.visitor.email}</h3>
+                <h3>{this.injected.visitor._id}</h3>
+                <input type="checkbox"/> Remove "docker/" string from container name
+                <input type="checkbox"/> Remove "[1]" string from container name
 
                 {/*<List/>*/}
             </div>
@@ -48,6 +54,7 @@ export class Settings extends React.Component<Props, State> {
 import {withRouter} from "react-router-dom";
 import {RouteComponentProps} from "react-router";
 import {Auth} from "./model/Auth";
+import {Visitor} from "./model/Visitor";
 
 @withRouter
 class Test extends React.Component {
