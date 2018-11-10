@@ -25,7 +25,7 @@ interface State {
 }
 
 @inject("model", "auth")
-export class Home extends React.Component<Props, State> {
+export class Settings extends React.Component<Props, State> {
     private get injected(): InjectedProps {
         return this.props as InjectedProps;
     }
@@ -36,10 +36,10 @@ export class Home extends React.Component<Props, State> {
 
                 <NavigationBar/>
                 <div style={{paddingTop: "20px"}}></div>
-                <Filter/>
+                {/*<Filter/>*/}
                 <Route path="/home/:logId" component={Test}/>
 
-                <List/>
+                {/*<List/>*/}
             </div>
         )
     }

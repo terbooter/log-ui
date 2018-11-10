@@ -9,6 +9,12 @@ export class Auth {
 
     }
 
+    public logout() {
+        localStorage.removeItem("token");
+        this.status = "guest";
+        this.history.push("/login");
+    }
+
     public async autoLogin() {
         let r: GateResponse = await this.tryRefreshToken();
         if (r.success) {

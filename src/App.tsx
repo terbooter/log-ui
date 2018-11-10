@@ -1,11 +1,12 @@
 import * as React from 'react';
 import './App.css';
-import {Route, Router, Switch} from "react-router";
+import {Redirect, Route, Router, Switch} from "react-router";
 import {LoginPage} from "./LoginPage";
 import {Model} from "./model/Model";
 import {Home} from "./Home";
 import {inject, observer} from "mobx-react";
 import {Auth} from "./model/Auth";
+import {Settings} from "./Settings";
 
 interface State {
 
@@ -23,7 +24,7 @@ export class App extends React.Component<{}, State> {
     constructor(props) {
         super(props);
 
-        this.state = {status: "authorizing"};
+        this.state = {status: this.injected.auth.status};
     }
 
     private get injected(): InjectedProps {
@@ -36,6 +37,7 @@ export class App extends React.Component<{}, State> {
 
     public render() {
 
+        console.log(this.injected.auth.status);
         const history = this.injected.model.history;
 
         if (this.injected.auth.status == "authorizing") {
@@ -50,6 +52,9 @@ export class App extends React.Component<{}, State> {
                     <Route path="/login" component={LoginPage}/>
 
                     <Route path="/home" component={Home}/>
+                    <Route path="/settings" component={Settings}/>
+
+                    <Redirect to="/home"/>
 
                     <Route render={() => {
 
