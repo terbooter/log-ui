@@ -50,9 +50,28 @@ export class Home extends React.Component<Props, State> {
                 </div>
                 <div style={{paddingTop: "20px"}}></div>
                 <Filter/>
+                <Route path="/home/:logId" component={Test}/>
 
                 <List/>
             </div>
+        )
+    }
+}
+
+import {withRouter} from "react-router-dom";
+import {RouteComponentProps} from "react-router";
+
+@withRouter
+class Test extends React.Component {
+
+    private get router(): RouteComponentProps<{ logId: string }> {
+        return this.props as RouteComponentProps<{ logId: string }>;
+    }
+
+    render() {
+        console.log(this.router.match.params.logId);
+        return (
+            <div>Log ID: {this.router.match.params.logId}</div>
         )
     }
 }

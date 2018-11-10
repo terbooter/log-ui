@@ -5,17 +5,14 @@ import * as classNames from "classnames";
 import {Model} from "../../model/Model";
 import {inject, observer} from "mobx-react";
 import {FilterParams} from "../../model/FilterParams";
+import {withRouter} from "react-router-dom";
+import {RouteComponentProps} from "react-router";
 
 interface InjectedProperties {
     model: Model
 }
 
-export interface FilterState {
-    text: string;
-    campusId: number;
-    programId: number;
-}
-
+@withRouter
 @inject("model")
 @observer
 export class Filter extends Component<{}, FilterState> {
@@ -37,6 +34,10 @@ export class Filter extends Component<{}, FilterState> {
 
     private get injected(): InjectedProperties {
         return this.props as InjectedProperties;
+    }
+
+    private get router(): RouteComponentProps {
+        return this.props as RouteComponentProps;
     }
 
     public async componentDidMount() {
@@ -107,6 +108,9 @@ export class Filter extends Component<{}, FilterState> {
     }
 
     public render() {
+        console.log("Filter=");
+        console.log(this.router.match);
+
         let options = this.injected.model.hosts.map((item: any, index) => {
             return <option key={index} value={item}>{item}</option>;
         });
@@ -164,4 +168,10 @@ export class Filter extends Component<{}, FilterState> {
             </div>
         );
     }
+}
+
+export interface FilterState {
+    text: string;
+    campusId: number;
+    programId: number;
 }
